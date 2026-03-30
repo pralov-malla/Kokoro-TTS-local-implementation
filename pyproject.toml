@@ -1,0 +1,7 @@
+[project]
+name = "kokoro-tts-local-implementation"
+version = "0.1.0"
+description = "Implementing kokoro-tts locally using NVIDIA GeForce GTX 1650"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
