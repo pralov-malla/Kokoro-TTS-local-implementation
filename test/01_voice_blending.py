@@ -37,8 +37,6 @@ mixed_voice = mix_voices(
 
 texts = [
     "Hello. I am Pratik Lama and I am here to take your visa interview. I will ask you a few questions and you have to answer them. Are you ready?",
-    "This is the second sentence.",
-    "And this is the third one.",
 ]
 
 for text_idx, text in enumerate(texts):
