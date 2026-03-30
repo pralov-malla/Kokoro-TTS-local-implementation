@@ -4,4 +4,19 @@ version = "0.1.0"
 description = "Implementing kokoro-tts locally using NVIDIA GeForce GTX 1650"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "kokoro>=0.9.4",
+    "soundfile>=0.13.1",
+    "torch>=2.7.1",
+    "torchaudio>=2.7.1",
+    "torchvision>=0.22.1",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch" }
+torchvision = { index = "pytorch" }
+torchaudio = { index = "pytorch" }
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu118"

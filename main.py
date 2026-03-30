@@ -1,6 +1,3 @@
-def main():
-    print("Hello from kokoro-tts-local-implementation!")
+import torch
 
-
-if __name__ == "__main__":
-    main()
+print("GPU:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "No GPU available")
