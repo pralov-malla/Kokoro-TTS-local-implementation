@@ -1,4 +1,5 @@
 from openai import OpenAI
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -40,7 +41,8 @@ class ConversationManager:
 
         for chunk in response:
             if chunk.choices:
-                text = chunk.choices[0].delta.get("content", "")
+                delta = chunk.choices[0].delta
+                text = getattr(delta, "content", "") or ""
                 if text:
                     yield text
     
