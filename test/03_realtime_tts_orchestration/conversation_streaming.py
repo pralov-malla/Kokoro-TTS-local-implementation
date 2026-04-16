@@ -1,4 +1,4 @@
-from gpt_streaming import ConversationManager
+from gpt_response import ConversationManager
 from kokoro_engine import create_kokoro_stream
 
 

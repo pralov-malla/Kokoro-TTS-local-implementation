@@ -18,6 +18,28 @@ class ConversationManager:
     def __init__(self):
         self.messages = []
 
+    def complete_response(self, user_input: str) -> str:
+        user_input = user_input.strip()
+        if not user_input:
+            return ""
+
+        self.messages.append({"role": "user", "content": user_input})
+
+        response = client.chat.completions.create(
+            model="gpt-4.1-mini",
+            messages=[{"role": "system", "content": SYSTEM_PROMPT}, *self.messages],
+            temperature=0.7,
+            max_tokens=100,
+        )
+
+        text = response.choices[0].message.content or ""
+        text = text.strip()
+
+        if text:
+            self.add_assistant_message(text)
+
+        return text
+
     
     def stream_response(self, user_input):
 
