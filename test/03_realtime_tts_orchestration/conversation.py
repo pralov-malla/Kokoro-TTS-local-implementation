@@ -1,5 +1,3 @@
-from time import perf_counter
-
 from gpt_streaming import ConversationManager
 from kokoro_engine import create_kokoro_stream
 
@@ -11,24 +9,23 @@ class ConversationApp:
 
     def ask(self, user_input: str):
         collected = []
-        started_at = perf_counter()
-        first_chunk_at = None
+        latency_ms = None
 
         def text_generator():
-            nonlocal first_chunk_at
             for chunk in self.llm.stream_response(user_input):
                 if chunk:
-                    now = perf_counter()
-                    if first_chunk_at is None:
-                        first_chunk_at = now
-                        latency_ms = (first_chunk_at - started_at) * 1000
-                        print(f"[latency: {latency_ms:.0f} ms] ", end="", flush=True)
                     print(chunk, end="", flush=True)
                     collected.append(chunk)
                     yield chunk
 
+        def on_first_audio_chunk_prepared(kokoro_latency_ms):
+            nonlocal latency_ms
+            if latency_ms is None and kokoro_latency_ms is not None:
+                latency_ms = kokoro_latency_ms
+
         print("\nOfficer:", end=" ", flush=True)
 
+        self.stream.engine.on_first_audio_chunk_prepared = on_first_audio_chunk_prepared
         self.stream.feed(text_generator())
         self.stream.play()
 
@@ -37,8 +34,9 @@ class ConversationApp:
             self.llm.add_assistant_message(full_text)
 
         print()
-        if first_chunk_at is None:
-            print("Latency: no speakable chunk returned")
+        if latency_ms is not None:
+            print(f"Kokoro latency: {latency_ms:.0f} ms")
+        return full_text, latency_ms
 
     def run(self):
         while True:
