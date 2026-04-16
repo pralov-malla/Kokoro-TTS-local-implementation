@@ -1,18 +1,18 @@
 # Kokoro TTS Local Implementation
 
-Local experiments for running Kokoro TTS on-device, plus a real-time conversational orchestration flow that streams GPT text into speech.
+Local Kokoro TTS implementation for on-device use, plus a real-time conversational orchestration flow that streams GPT text into speech.
 
 This repository is especially focused on:
 
 - Realtime text + speech orchestration (`test/03_realtime_tts_orchestration`)
 - Comparing perceived responsiveness between streaming vs full-sentence synthesis
-- Reproducible local setup with `uv` and `uv sync`
+- Local setup with `uv` and `uv sync`
 
 ## What This Project Contains
 
 - Baseline Kokoro generation (`main.py`)
-- Voice blending experiments (`test/01_voice_blending/voice_blending.py`)
-- Alignment and phrase extraction pipeline (`test/02_test_align_and_cut/*`)
+- Voice blending workflow (`test/01_voice_blending/voice_blending.py`)
+- Alignment and phrase extraction tools (`test/02_test_align_and_cut/*`)
 - Realtime conversational TTS orchestration (`test/03_realtime_tts_orchestration/*`)
 
 ## Project Structure
@@ -103,7 +103,7 @@ What `uv sync` does here:
 
 - Creates/updates `.venv`
 - Resolves and installs dependencies from `pyproject.toml`
-- Uses `uv.lock` for reproducibility when present
+- Uses `uv.lock` for consistent dependency resolution when present
 
 ### 3) Configure API Key
 
@@ -152,7 +152,7 @@ Commands inside the app are the same (`reset`, `exit`, `quit`).
 
 ## Latency Comparison (Streaming vs Full Sentence)
 
-If you want a direct comparison, use this protocol.
+Use this process for a direct comparison.
 
 ### Metric
 
@@ -162,7 +162,7 @@ Use the printed value:
 
 This approximates time to first synthesized audio chunk after synthesis starts.
 
-### Method (Reproducible)
+### Comparison Steps
 
 1. Run each mode separately.
 2. Use the same 10 user prompts for both runs.
@@ -206,7 +206,7 @@ uv run main.py
 uv run test/01_voice_blending/voice_blending.py
 ```
 
-### Align and Cut Pipeline
+### Align and Cut Tools
 
 ```bash
 uv run test/02_test_align_and_cut/01_generate_audio.py
